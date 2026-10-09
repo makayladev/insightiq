@@ -6,14 +6,15 @@ type KpiCardProps = {
 }
 
 function KpiCard({ kpi }: KpiCardProps) {
-  const isPositive = kpi.change >= 0
+  const isUp = kpi.change >= 0
+  const isGood = kpi.higherIsBetter ? isUp : !isUp
 
   return (
     <article className="kpi-card">
       <p className="kpi-label">{kpi.label}</p>
       <p className="kpi-value">{formatValue(kpi.value, kpi.format)}</p>
-      <p className={isPositive ? 'kpi-change positive' : 'kpi-change negative'}>
-        {isPositive ? '▲' : '▼'} {Math.abs(kpi.change)}% vs last month
+      <p className={isGood ? 'kpi-change positive' : 'kpi-change negative'}>
+        {isUp ? '▲' : '▼'} {Math.abs(kpi.change)}% vs last month
       </p>
     </article>
   )

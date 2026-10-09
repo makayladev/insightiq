@@ -7,11 +7,17 @@ import ChartCard from './components/ChartCard'
 import RevenueChart from './components/RevenueChart'
 import ExpensesChart from './components/ExpensesChart'
 import CustomersChart from './components/CustomersChart'
-import { kpis, monthlyData, expenseCategories } from './data/mockData'
+import CsvUpload from './components/CsvUpload'
+import { monthlyData, expenseCategories } from './data/mockData'
+import type { MonthlyData } from './data/mockData'
+import { computeKpis } from './utils/kpis'
 
 function App() {
+  const [data, setData] = useState<MonthlyData[]>(monthlyData)
   const [period, setPeriod] = useState(12)
-  const filteredData = monthlyData.slice(-period)
+
+  const filteredData = data.slice(-period)
+  const kpis = computeKpis(data)
 
   return (
     <div className="layout">
@@ -35,13 +41,18 @@ function App() {
           <ChartCard title="Revenue vs expenses">
             <RevenueChart data={filteredData} />
           </ChartCard>
-          <ChartCard title="Expenses by category (October)">
+          <ChartCard title="Expenses by category (sample)">
             <ExpensesChart data={expenseCategories} />
           </ChartCard>
           <ChartCard title="New customers per month" wide>
             <CustomersChart data={filteredData} />
           </ChartCard>
         </section>
+
+        <CsvUpload
+          onDataLoaded={setData}
+          onReset={() => setData(monthlyData)}
+        />
       </main>
     </div>
   )
