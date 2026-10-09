@@ -32,6 +32,11 @@ body {
 
 .content {
   padding: 32px;
+  min-width: 0;
+}
+
+.print-only {
+  display: none;
 }
 
 /* Sidebar */
@@ -40,6 +45,9 @@ body {
   background: #111827;
   color: #ffffff;
   padding: 24px 16px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
 }
 
 .logo {
@@ -74,7 +82,7 @@ body {
   color: #ffffff;
 }
 
-/* Page header and filter */
+/* Page header, filter and report actions */
 
 header {
   margin-bottom: 24px;
@@ -100,6 +108,18 @@ header p {
 
 .page-top header {
   margin-bottom: 0;
+}
+
+.page-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.report-actions {
+  display: flex;
+  gap: 8px;
 }
 
 .filter {
@@ -196,6 +216,38 @@ header p {
   grid-column: 1 / -1;
 }
 
+/* Buttons */
+
+.button-primary,
+.button-secondary {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.button-primary {
+  background: var(--primary);
+  color: #ffffff;
+}
+
+.button-primary:hover {
+  opacity: 0.9;
+}
+
+.button-secondary {
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+.button-secondary:hover {
+  background: var(--bg);
+}
+
 /* CSV upload */
 
 .upload-card {
@@ -232,36 +284,6 @@ header p {
   gap: 8px;
 }
 
-.button-primary,
-.button-secondary {
-  padding: 8px 16px;
-  border-radius: 8px;
-  border: 1px solid transparent;
-  font: inherit;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.button-primary {
-  background: var(--primary);
-  color: #ffffff;
-}
-
-.button-primary:hover {
-  opacity: 0.9;
-}
-
-.button-secondary {
-  background: transparent;
-  border-color: var(--border);
-  color: var(--text);
-}
-
-.button-secondary:hover {
-  background: var(--bg);
-}
-
 .upload-message {
   width: 100%;
   font-size: 0.9rem;
@@ -287,5 +309,57 @@ header p {
 @media (max-width: 768px) {
   .layout {
     grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
+    height: auto;
+  }
+}
+
+/* Print (Save as PDF) */
+
+@page {
+  margin: 15mm;
+}
+
+@media print {
+
+  .sidebar,
+  .page-actions,
+  .upload-card {
+    display: none;
+  }
+
+  .print-only {
+    display: block;
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+  }
+
+  body {
+    background: #ffffff;
+  }
+
+  .layout {
+    display: block;
+  }
+
+  .content {
+    padding: 0;
+  }
+
+  .kpi-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .chart-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .kpi-card,
+  .chart-card {
+    break-inside: avoid;
   }
 }
